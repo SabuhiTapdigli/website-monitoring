@@ -1,13 +1,36 @@
+import {useState} from 'react'
 import styled from 'styled-components';
+import Navbar from './components/Header/Navbar';
+import './index.css'
+import LeftSidebar from './components/LeftSidebar/LeftSidebar';
+import Main from './components/Main/Main';
+import RightSidebar from './components/RightSidebar/RightSidebar';
+import Lastedit from './components/LastEdit/LastEdit';
+import {connect} from 'react-redux';
 
-function App() {
+
+
+function App(props) {
+  const [search, setsearch] = useState('')
   return (
-    <Main>
-      <h1>Hello</h1>
-    </Main>
+    <>
+      <Navbar setsearch={setsearch}/>
+      <MainWrapper>
+        <LeftSidebar/>
+        <Main search={search}/>
+        <RightSidebar/>
+      </MainWrapper>
+      <Lastedit/>
+    </>
   );
 }
-const Main = styled.div`  
-  h1{color:red};
+
+const MainWrapper = styled.div`
+  display:flex;
 `
-export default App;
+const mapStateProps = state =>{
+    return{
+      items:state.items
+    }
+}
+export default connect(mapStateProps)(App) ;
