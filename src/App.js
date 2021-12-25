@@ -1,33 +1,29 @@
 import {useState} from 'react'
 import styled from 'styled-components';
-import Navbar from './components/Header/Navbar';
 import './index.css'
-import LeftSidebar from './components/LeftSidebar/LeftSidebar';
 import Main from './components/Main/Main';
-import RightSidebar from './components/RightSidebar/RightSidebar';
-import Lastedit from './components/LastEdit/LastEdit';
 import {connect} from 'react-redux';
-
+import { BrowserRouter,Routes,
+  Route } from "react-router-dom";
+import Login from './components/Auth/Login';
+import Register from './components/Auth/Register';
 
 
 function App(props) {
-  const [search, setsearch] = useState('')
   return (
     <>
-      <Navbar setsearch={setsearch}/>
-      <MainWrapper>
-        <LeftSidebar/>
-        <Main search={search}/>
-        <RightSidebar/>
-      </MainWrapper>
-      <Lastedit/>
+     <BrowserRouter>
+      <Routes>
+          <Route path='login' element={<Login/>}/>
+          <Route path='register' element={<Register/>}/>
+          <Route path='' element ={<Main/>}/>
+      </Routes>
+    </BrowserRouter>
     </>
   );
 }
 
-const MainWrapper = styled.div`
-  display:flex;
-`
+
 const mapStateProps = state =>{
     return{
       items:state.items

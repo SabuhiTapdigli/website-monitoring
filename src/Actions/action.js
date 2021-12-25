@@ -71,7 +71,6 @@ export const edititemInitiate = (id) =>{
     }
 }
 // update data on firebase
-
 export const updateitemInitiate = (id,website) =>{
     return function(dispatch){
         db.collection('websites').doc(id).update(website)
@@ -81,7 +80,6 @@ export const updateitemInitiate = (id,website) =>{
 }
 
 // search item
-
 export const searchitemInitiate = (search) =>{
     return function(dispatch) {
         dispatch(searchitem(search))

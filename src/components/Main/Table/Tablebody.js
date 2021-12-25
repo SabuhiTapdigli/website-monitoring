@@ -5,6 +5,7 @@ import Delete from '../Buttons/Delete';
 import Edit from '../Buttons/Edit';
 import Copy from '../Buttons/Copy';
 import {connect} from 'react-redux';
+import { Pagination } from 'antd'
 import { useDispatch , useSelector } from 'react-redux'
 import { additemInitiate, getitemsInitiate, deleteitemInitiate, edititemInitiate,updateitemInitiate,deleteitemAllInitiate, copyitemInitiate,editedmodeinitialzer} from '../../../Actions/action';
 // import { editedmodeinitialzer } from '../../../Actions/simpleaction'
@@ -13,8 +14,28 @@ import { additemInitiate, getitemsInitiate, deleteitemInitiate, edititemInitiate
 const TableBody = (props) =>{
  
     const {data,website,searchdata,hide} = useSelector(state=>state.data)
-    console.log('editmode',hide)
-   
+    // pagination
+    const total = searchdata.length
+    const [page,setPage] = useState(1)
+    const [postPerPage,setPostPerPage] = useState(10)
+    const indexofLastPage = page * postPerPage
+    const indexofFirstPage = indexofLastPage - postPerPage
+    const CurrentPosts = searchdata.slice(indexofFirstPage,indexofLastPage)
+
+    const onShowSizeChange = (current, pageSize) => {
+        setPostPerPage(pageSize)
+    }
+    const itemRender = (current , type , orginialElement) =>{
+        if(type === 'prev'){
+            return <a>Previous</a>
+        }
+        if(type === 'next') {
+            return <a>Next</a>
+        }
+        return orginialElement
+    }
+    // end pagination
+
     const [websiteid, setwebsiteid] = useState(null)
     const [radio, setradio] = useState([])
     const [editmode,seteditmode] = useState(false)
@@ -81,6 +102,7 @@ const TableBody = (props) =>{
             setinput({...website})
         }
     },[website])
+
    
     return(
         
@@ -88,7 +110,7 @@ const TableBody = (props) =>{
          <button onClick={()=>deleteall(radio)}>Del All</button>
             {
                 
-               searchdata && searchdata.map((item)=>{
+                CurrentPosts && CurrentPosts.map((item)=>{
                     return(
                         <Head key={item.id}>
                             <input type="radio" value="" name="" onClick={()=>deleteallhandler(item.id)} />
@@ -106,11 +128,21 @@ const TableBody = (props) =>{
                         </Head>
                     )
                 })
+                
             }
             {
                 hide || editmode ? <Form onchangehandler={onchangehandler} submitHandler={submitHandler} setinput={setinput} input={input} seteditmode={seteditmode}/> : null
             }
-            
+            <Pagination onChange = {(value) => setPage(value)} 
+            pageSize={postPerPage} 
+            total = {total} 
+            current = {page}
+            showSizeChanger
+            showQuickJumper
+            onShowSizeChange={onShowSizeChange}
+            itemRender={itemRender}
+           
+                 />
         </>
     )
 }

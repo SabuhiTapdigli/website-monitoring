@@ -45,6 +45,7 @@ const Logo = styled.div`
 const Search = styled.input`
     height:40px;
     width:50%;
+    color:black;
 `
 const Navlinks = styled.ul`
 

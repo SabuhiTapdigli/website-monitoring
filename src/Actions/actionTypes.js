@@ -7,4 +7,6 @@ export const SEARCHITEMS = 'SEARCHITEMS';
 export const COPYITEM = 'COPYITEM';
 export const DELETEALL = 'DELETEALL'
 export const EDITMODE = 'EDITMODE'
-export const FORMDISPLAY = 'FORMDISPLAY'
+export const LOGINSTART = 'LOGINSTART'
+export const LOGINSUCCESS = 'LOGINSUCCESS'
+export const LOGINERROR = 'LOGINERROR'

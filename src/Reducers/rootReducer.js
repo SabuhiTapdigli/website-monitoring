@@ -1,11 +1,12 @@
 import { combineReducers } from 'redux';
 import websitesReducer from '../Reducers/websitesReducer'
-// import formReducer from '../Reducers/formReducer'
+import authReducer from '../Reducers/authReducer'
 
 
 
 const rootReducer = combineReducers({
-    data:websitesReducer
+    data:websitesReducer,
+    user:authReducer
 })
 export default rootReducer
 
