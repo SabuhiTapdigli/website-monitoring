@@ -1,33 +1,44 @@
-import {useState} from 'react'
+import {useState,useEffect} from 'react'
 import {useDispatch, useSelector } from 'react-redux'
 import {connect} from 'react-redux'
 import {registerInitiate} from '../../Actions/authaction'
 import styled from 'styled-components'
-import {Link} from 'react-router-dom'
+import {Link,useNavigate} from 'react-router-dom'
 
 const Register = () =>{
+    const {currentuser} = useSelector(state =>state.user)
     const [input,setinput] = useState({
-        username:'',
+        displayName:'',
         mail:'',
         password:'',
         passwordrepeat:'',
     })
-    const {username,mail,password} = input
+    const {displayName,mail,password,passwordrepeat} = input
     const dispatch = useDispatch();
-    const {currentuser} = useSelector(state =>state.user)
+    const history = useNavigate()
+    useEffect(()=>{
+        if(currentuser){
+            history('/')
+        }
+    },[currentuser,history])
+    
     const inputhandler = (e) =>{
         setinput({...input,[e.target.id] : e.target.value})
     }
     const submithandler = (e) => {
         e.preventDefault()
-        dispatch(registerInitiate(mail,password))
+        if(password !== passwordrepeat){
+            return;
+        }
+        dispatch(registerInitiate(mail,password,displayName))
+        setinput({displayName:'',mail:'',password:'',passwordrepeat:''})
     }
     return(
         <Container>
             <h1>Register</h1>
              <form  onSubmit={submithandler}>
                  <label>Username</label>
-            <input type='text' id='username' onChange={inputhandler}></input>
+            <input type='text' id='displayName' onChange={inputhandler}></input>
             <label>Email</label>
             <input type='mail' id='mail' onChange={inputhandler}></input>
             <label>Password</label>

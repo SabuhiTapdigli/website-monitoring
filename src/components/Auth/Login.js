@@ -1,9 +1,8 @@
-import {useState} from 'react'
+import {useState,useEffect} from 'react'
 import {useDispatch, useSelector } from 'react-redux'
 import {connect} from 'react-redux'
-import {registerInitiate} from '../../Actions/authaction'
-import {Link} from 'react-router-dom';
-
+import {loginInitiate} from '../../Actions/authaction'
+import {Link,useNavigate} from 'react-router-dom';
 import styled from 'styled-components'
 
 const Login = () =>{
@@ -13,13 +12,25 @@ const Login = () =>{
     })
     const {mail,password} = input
     const dispatch = useDispatch();
+    const history  = useNavigate()
     const {currentuser} = useSelector(state =>state.user)
+
+    useEffect(()=>{
+        if(currentuser){
+            history('/')
+        }
+    },[currentuser,history])
+
     const inputhandler = (e) =>{
         setinput({...input,[e.target.id] : e.target.value})
     }
     const submithandler = (e) => {
         e.preventDefault()
-        dispatch(registerInitiate(mail,password))
+        if(!mail || !password){
+            return
+        }
+        dispatch(loginInitiate(mail,password))
+        setinput({mail:'',password:''})
     }
     return(
         <Container>
@@ -28,7 +39,7 @@ const Login = () =>{
             <label>email</label>
             <input type='mail' id='mail' onChange={inputhandler}></input>
             <label>Password</label>
-            <input type='password' id='password'></input>
+            <input type='password' id='password' onChange={inputhandler}></input>
             <button type='submit'>Login</button>
         </form>
         <Link to='/register'>Register</Link>
