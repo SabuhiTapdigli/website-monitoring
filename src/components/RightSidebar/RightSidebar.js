@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import "antd/dist/antd.css";
 import { useDispatch, useSelector } from 'react-redux';
 import { Pagination } from 'antd'
+import Setting from '../Settings/Setting';
 const RightSidebar = () =>{
     const { data } = useSelector (state => state.data)
     const total = data.length
@@ -25,6 +26,7 @@ const RightSidebar = () =>{
         return orginialElement
     }
     return(
+        <>
         <Sidebar>
             <h1>Will expire in 2 days</h1>
             <Nav>
@@ -52,6 +54,8 @@ const RightSidebar = () =>{
                  itemRender={itemRender}/>
             </Nav>
         </Sidebar>
+        <Setting/>
+        </>
     )
 }
 

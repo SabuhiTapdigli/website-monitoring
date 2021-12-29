@@ -37,6 +37,11 @@ export const setuser = (user) =>({
     type:types.SET_USER,
     payload:user
 })
+
+export const hideElement = (boolean) =>({
+    type:types.HIDE_ELEMENT,
+    payload:boolean
+})
 export const registerInitiate = (mail,password,displayName) => {
     return function(dispatch){
         dispatch(registerstart());

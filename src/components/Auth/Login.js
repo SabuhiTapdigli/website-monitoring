@@ -26,9 +26,6 @@ const Login = () =>{
     }
     const submithandler = (e) => {
         e.preventDefault()
-        if(!mail || !password){
-            return
-        }
         dispatch(loginInitiate(mail,password))
         setinput({mail:'',password:''})
     }
@@ -37,9 +34,9 @@ const Login = () =>{
             <h1>Login</h1>
         <form  onSubmit={submithandler}>
             <label>email</label>
-            <input type='mail' id='mail' onChange={inputhandler}></input>
+            <input type='mail' id='mail' value = {mail}onChange={inputhandler} required></input>
             <label>Password</label>
-            <input type='password' id='password' onChange={inputhandler}></input>
+            <input type='password' id='password' value = {password} onChange={inputhandler} required></input>
             <button type='submit'>Login</button>
         </form>
         <Link to='/register'>Register</Link>

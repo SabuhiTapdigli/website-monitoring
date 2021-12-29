@@ -28,23 +28,24 @@ const Register = () =>{
     const submithandler = (e) => {
         e.preventDefault()
         if(password !== passwordrepeat){
+            alert('password not match')
             return;
         }
         dispatch(registerInitiate(mail,password,displayName))
-        setinput({displayName:'',mail:'',password:'',passwordrepeat:''})
+        // setinput({mail:'',password:'',passwordrepeat:''})
     }
     return(
         <Container>
             <h1>Register</h1>
              <form  onSubmit={submithandler}>
                  <label>Username</label>
-            <input type='text' id='displayName' onChange={inputhandler}></input>
+            <input type='text' id='displayName' value={displayName} onChange={inputhandler}></input>
             <label>Email</label>
-            <input type='mail' id='mail' onChange={inputhandler}></input>
+            <input type='mail' id='mail' value={mail} onChange={inputhandler}></input>
             <label>Password</label>
-            <input type='password' id='password' onChange={inputhandler}></input>
+            <input type='password' id='password' value={password} onChange={inputhandler}></input>
             <label>Repeat Password</label>
-            <input type='password' id='passwordrepeat' onChange={inputhandler}></input>
+            <input type='password' id='passwordrepeat' value={passwordrepeat} onChange={inputhandler}></input>
             <button type='submit'>Register</button>
         </form>
         <Link to ='/login'>Login</Link>

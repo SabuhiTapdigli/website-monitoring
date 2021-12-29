@@ -2,10 +2,13 @@ import * as types from '../Actions/actionTypes';
 const initialstate = {
     loading:false,
     currentuser:null,
-    error:null
+    error:null,
+    hide:false
 }
 const authReducer = (state=initialstate,action) =>{
     switch(action.type){
+        case types.HIDE_ELEMENT:
+            return({...state,hide:action.payload})
         case types.REGISTER_START:
         case types.LOGIN_START:
         case types.LOGOUT_START:
