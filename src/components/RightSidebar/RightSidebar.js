@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import "antd/dist/antd.css";
 import { useDispatch, useSelector } from 'react-redux';
 import { Pagination } from 'antd'
-import Setting from '../Settings/Setting';
+
 const RightSidebar = () =>{
     const { data } = useSelector (state => state.data)
     const total = data.length
@@ -12,7 +12,6 @@ const RightSidebar = () =>{
     const indexofLastPage = page * postPerPage
     const indexofFirstPage = indexofLastPage - postPerPage
     const CurrentPosts = data.slice(indexofFirstPage,indexofLastPage)
-    const currentdate = new Date()
     const onShowSizeChange = (current, pageSize) => {
         setPostPerPage(pageSize)
     }
@@ -54,7 +53,6 @@ const RightSidebar = () =>{
                  itemRender={itemRender}/>
             </Nav>
         </Sidebar>
-        <Setting/>
         </>
     )
 }

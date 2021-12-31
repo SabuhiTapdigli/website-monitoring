@@ -1,6 +1,6 @@
 import * as types from './actionTypes'
 import {auth} from '../firebaseConfig/fbConfig'
-
+import db from '../firebaseConfig/fbConfig'
 const loginstart = () => ({
     type:types.LOGIN_START
 })
@@ -33,6 +33,7 @@ const logoutsuccess = () =>({
 const logouterror = () => ({
     type:types.LOGOUT_ERROR
 })
+
 export const setuser = (user) =>({
     type:types.SET_USER,
     payload:user
@@ -42,7 +43,7 @@ export const hideElement = (boolean) =>({
     type:types.HIDE_ELEMENT,
     payload:boolean
 })
-export const registerInitiate = (mail,password,displayName) => {
+export const registerInitiate = (mail,password,displayName,role) => {
     return function(dispatch){
         dispatch(registerstart());
         auth.createUserWithEmailAndPassword(mail,password)
@@ -50,6 +51,7 @@ export const registerInitiate = (mail,password,displayName) => {
             user.updateProfile({
                 displayName
             })
+            db.collection('user').doc(user.uid).set({uid:user.uid,mail,role})
             dispatch(registersuccess(user))
         })
         .catch((error)=>dispatch(registererror(error)))
@@ -75,3 +77,4 @@ export const logoutinitiate = () =>{
         .catch((error)=>{dispatch(logouterror(error.message))})
     }
 }
+

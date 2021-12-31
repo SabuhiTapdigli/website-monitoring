@@ -3,17 +3,11 @@ import styled from 'styled-components'
 import {useDispatch,useSelector} from 'react-redux'
 import { hideElement } from '../../Actions/authaction'
 import {auth} from '../../firebaseConfig/fbConfig'
-import firebase from 'firebase/app'
 
 
 
 
 const Setting = () =>{
-    
-    // console.log('userr',auth.currentUser.updateProfile({displayName:'sabuhi'}).then(()=>console.log('sucess')))
-    
-    
-  
     const dispatch  = useDispatch()
     const {currentuser,hide} = useSelector(state =>state.user)
     const [input,setinput] = useState({
@@ -87,6 +81,7 @@ const Main = styled.div`
         border:1px solid red;
         height:30px;
         margin-bottom:10px;
+        color:black;
     }
     button{
         height:40px;

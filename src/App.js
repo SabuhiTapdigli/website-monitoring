@@ -9,7 +9,8 @@ import UserRoute from './components/Auth/UserRoute';
 import { useDispatch } from 'react-redux';
 import { auth } from './firebaseConfig/fbConfig'
 import {setuser} from './Actions/authaction'
-
+import Userlist from './components/Userlists/Userlist';
+import db from './firebaseConfig/fbConfig'
 
 function App() {
   const dispatch = useDispatch()
@@ -17,6 +18,9 @@ function App() {
     auth.onAuthStateChanged((currentUser)=>{
       if(currentUser){
         dispatch(setuser(currentUser))
+        db.collection('user').doc(currentUser.uid).get().then((user)=>{
+          console.log('userrr',{...user.data()})
+      })
       }else{
         dispatch(setuser(null))
       }
@@ -27,6 +31,7 @@ function App() {
      <BrowserRouter>
       <Routes>
           <Route exact path='/' element ={<UserRoute><Main/></UserRoute>}/>
+          <Route path='userlist' element ={<UserRoute><Userlist/></UserRoute>}></Route>
           <Route path='login' element={<Login/>}/>
           <Route path='register' element={<Register/>}/>
           

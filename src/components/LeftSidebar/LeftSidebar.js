@@ -1,11 +1,26 @@
 import styled from 'styled-components';
+import { useState, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import {getmenuInitiate} from '../../Actions/menuAction'
+import {Link} from 'react-router-dom'
 
+    
 const LeftSidebar = () =>{
+    const dispatch = useDispatch();
+    const {links} = useSelector(state=>state.menu)
+    useEffect(()=>{
+        dispatch(getmenuInitiate())
+    },[])
+    console.log(links)
     return(
         <Sidebar>
+            
             <Nav>
-                <li><a hred=''>Websites</a></li>
-                <li><a hred=''>Scrapped</a></li>
+            {links.map((link)=>{
+                return(<li><Link to={`/${link.menu}`}>{link.menu}</Link></li>)
+            })}
+    
+                
             </Nav>
         </Sidebar>
     )

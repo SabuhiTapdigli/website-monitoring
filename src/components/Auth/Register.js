@@ -12,8 +12,9 @@ const Register = () =>{
         mail:'',
         password:'',
         passwordrepeat:'',
+        role:'guest'
     })
-    const {displayName,mail,password,passwordrepeat} = input
+    const {displayName,mail,password,passwordrepeat,role} = input
     const dispatch = useDispatch();
     const history = useNavigate()
     useEffect(()=>{
@@ -31,7 +32,7 @@ const Register = () =>{
             alert('password not match')
             return;
         }
-        dispatch(registerInitiate(mail,password,displayName))
+        dispatch(registerInitiate(mail,password,displayName,role))
         // setinput({mail:'',password:'',passwordrepeat:''})
     }
     return(

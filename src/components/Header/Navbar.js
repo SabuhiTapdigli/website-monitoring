@@ -4,6 +4,8 @@ import {connect} from 'react-redux';
 import { searchitemInitiate } from '../../Actions/action';
 import { useDispatch , useSelector } from 'react-redux'
 import { logoutinitiate, hideElement } from '../../Actions/authaction';
+import {Link} from 'react-router-dom'
+import Setting from '../Settings/Setting';
 
 const Navbar = () => {
     const dispatch = useDispatch()
@@ -22,14 +24,15 @@ const Navbar = () => {
     return(
         <Nav>
             <Container>
-                <Logo>Logo</Logo>
+                <Logo><Link to='/'>Logo</Link></Logo>
                 <Search placeholder='Search' onChange={searchandler} value={searched}></Search>
                 <Navlinks>
                     <li><a href='' onClick={logouthandler}>Logout</a></li>
-                    <li>{currentuser.displayName}</li>
+                    <li>{currentuser && currentuser.displayName}</li>
                     <li><a href='#' onClick={settinghandler}>Settings</a></li>
                 </Navlinks>
             </Container>
+            <Setting/>
         </Nav>
     )
 }   
