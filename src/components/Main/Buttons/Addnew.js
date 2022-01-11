@@ -1,15 +1,22 @@
 import styled from 'styled-components';
-import { useDispatch } from 'react-redux';
 import { editedmodeinitialzer } from '../../../Actions/action'
+import {useDispatch, useSelector} from 'react-redux'
 
 const Addnew = () =>{
     const dispatch = useDispatch()
+    const {role} = useSelector(state =>state.user)
+    
     const addnewhandler = () => {
         dispatch(editedmodeinitialzer(true))
     }
+    const askpermision = () =>{
+        alert("You can't do any action, Please ask admin permission")
+    }
     return(
         <Btnwrapper>
-            <Button type='button' onClick={addnewhandler}>Add New</Button>
+            {role && role.role ==='admin' ? <Button type='button' onClick={addnewhandler}>Add New</Button>
+            : <Button type='button' onClick={askpermision}>Add New</Button>} 
+            
         </Btnwrapper>
         
     )

@@ -8,9 +8,11 @@ import Register from './components/Auth/Register';
 import UserRoute from './components/Auth/UserRoute';
 import { useDispatch } from 'react-redux';
 import { auth } from './firebaseConfig/fbConfig'
-import {setuser} from './Actions/authaction'
+import {setuser, userRole} from './Actions/authaction'
 import Userlist from './components/Userlists/Userlist';
-import db from './firebaseConfig/fbConfig'
+import db from './firebaseConfig/fbConfig';
+import axios from 'axios'
+import Scrapped from './Pages/Scrapped';
 
 function App() {
   const dispatch = useDispatch()
@@ -19,19 +21,21 @@ function App() {
       if(currentUser){
         dispatch(setuser(currentUser))
         db.collection('user').doc(currentUser.uid).get().then((user)=>{
-          console.log('userrr',{...user.data()})
+          dispatch(userRole({...user.data()}))
       })
       }else{
         dispatch(setuser(null))
       }
     })
   },[dispatch])
+  
   return (
     <>
      <BrowserRouter>
       <Routes>
           <Route exact path='/' element ={<UserRoute><Main/></UserRoute>}/>
           <Route path='userlist' element ={<UserRoute><Userlist/></UserRoute>}></Route>
+          <Route path='scrapped' element ={<UserRoute><Scrapped/></UserRoute>}></Route>
           <Route path='login' element={<Login/>}/>
           <Route path='register' element={<Register/>}/>
           

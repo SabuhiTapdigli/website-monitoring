@@ -1,11 +1,21 @@
+import {useEffect} from 'react'
 import styled from 'styled-components'
-
+import {useDispatch,useSelector} from 'react-redux'
+import { getlogInitiate } from '../../Actions/logging'
 const Lastedit = () =>{
+    const {logdata} = useSelector(state=>state.log)
+    const dispatch = useDispatch()
+    console.log('logdata',logdata)
+    useEffect(()=>{
+        dispatch(getlogInitiate())
+    },[])
     return(
         <Container>
             <Edit>
-                <li>Parvin edited hosting name on Ca61 </li>
-                <li>Sabuhi deleted Fi85 account</li>
+                {logdata.map((item)=>(
+                    <li>{item.code} {item.actiontype} by {item.user}  </li>
+                )
+                )}
             </Edit>
         </Container>
     )

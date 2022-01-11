@@ -2,6 +2,7 @@ import * as types from '../Actions/actionTypes';
 const initialstate = {
     loading:false,
     currentuser:null,
+    role:null,
     error:null,
     hide:false
 }
@@ -20,6 +21,8 @@ const authReducer = (state=initialstate,action) =>{
             return({...state,currentuser:action.payload})
         case types.SET_USER:
             return{...state,currentuser:action.payload}
+        case types.USER_ROLE:
+            return{...state,role:action.payload}
         case types.REGISTER_ERROR:
         case types.LOGIN_ERROR:
         case types.LOGOUT_ERROR:

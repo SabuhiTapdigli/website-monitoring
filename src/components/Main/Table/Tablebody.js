@@ -8,12 +8,14 @@ import {connect} from 'react-redux';
 import { Pagination } from 'antd'
 import { useDispatch , useSelector } from 'react-redux'
 import { additemInitiate, getitemsInitiate, deleteitemInitiate, edititemInitiate,updateitemInitiate,deleteitemAllInitiate, copyitemInitiate,editedmodeinitialzer} from '../../../Actions/action';
+import { addlogInitiate, actionlogInitiate } from '../../../Actions/logging';
 // import { editedmodeinitialzer } from '../../../Actions/simpleaction'
 
 
 const TableBody = (props) =>{
  
     const {data,website,searchdata,hide} = useSelector(state=>state.data)
+    const {role} = useSelector(state => state.user) 
     // pagination
     const total = searchdata.length
     const [page,setPage] = useState(1)
@@ -51,8 +53,14 @@ const TableBody = (props) =>{
     hostingExpireDate:'',
     sslExpireDate:''
 }
+    
     const [input,setinput] = useState(initialstate)
-   
+    const datas = {
+        user:role && role.mail,
+        userid:role && role.uid,
+        actiontype :'added',
+        code: input.code
+    }
     const onchangehandler = (event) =>{
         setinput({...input,[event.target.id]:event.target.value})
     }
@@ -62,6 +70,7 @@ const TableBody = (props) =>{
             dispatch(additemInitiate(input))
             setinput({code:'',domain: '',cpanel : '',username: '',password : '',owner: '',domainExpireDate:'',hostingExpireDate:'' , 
             sslExpireDate:''})
+            dispatch(addlogInitiate(datas))
         }else{
             dispatch(updateitemInitiate(websiteid,input))
             setwebsiteid(null);
@@ -71,9 +80,10 @@ const TableBody = (props) =>{
         }
         
     }
-    const deletehandler = (id) =>{
+    const deletehandler = (item) =>{
         if(window.confirm('are you sure?')){
-            dispatch(deleteitemInitiate(id))
+            dispatch(deleteitemInitiate(item.id))
+            dispatch(actionlogInitiate({code:item.code,user:role && role.mail,actiontype:'deleted'}))
         }
     }
     const edithandler = (id) =>{
@@ -83,8 +93,8 @@ const TableBody = (props) =>{
     }
     const copyhandler = (copieditemdata) =>{
         dispatch(copyitemInitiate(copieditemdata))
+        dispatch(actionlogInitiate({code:copieditemdata.code,user:role && role.mail,actiontype:'copied'}))
     }
-    
     
     const deleteallhandler = (id) => {
         setradio([...radio,id])
@@ -103,11 +113,17 @@ const TableBody = (props) =>{
         }
     },[website])
 
+    const askpermision = () =>{
+        alert("You can't do any action, Please ask admin permission")
+    }
    
     return(
         
         <>
-         <button onClick={()=>deleteall(radio)}>Del All</button>
+        {role &&role.role === 'admin'
+        ? <button onClick={()=>deleteall(radio)}>Del All</button>
+        : <button onClick={()=>askpermision()}>Del All</button>}
+         
             {
                 
                 CurrentPosts && CurrentPosts.map((item)=>{
@@ -120,11 +136,20 @@ const TableBody = (props) =>{
                             <div style={{width:'12.5%'}}>{item.username}</div>
                             <div style={{width:'12.5%'}}>{item.password}</div>
                             <div style={{width:'10%'}}>{item.owner}</div>
-                            <button onClick={()=>deletehandler(item.id)}>Del</button>
-                            {/* <Edit/> */}
+                            {role && role.role === 'admin' 
+                            ?
+                            <>
+                            <button onClick={()=>deletehandler(item)}>Del</button>
                             <button onClick={()=>copyhandler(item)}>Copy</button>
                             <button onClick={()=>edithandler(item.id)}>Edit</button>
-                            {/* <Copy  Copyhandler={Copyhandler} id = {item.id}/> */}
+                            </>
+                            :
+                            <>
+                            <button onClick={()=>askpermision()}>Del</button>
+                            <button onClick={()=>askpermision()}>Copy</button>
+                            <button onClick={()=>askpermision()}>Edit</button>
+                            </>
+                    }
                         </Head>
                     )
                 })

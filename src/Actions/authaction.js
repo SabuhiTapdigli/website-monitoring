@@ -38,7 +38,10 @@ export const setuser = (user) =>({
     type:types.SET_USER,
     payload:user
 })
-
+export const userRole = (role) =>({
+    type:types.USER_ROLE,
+    payload:role
+})
 export const hideElement = (boolean) =>({
     type:types.HIDE_ELEMENT,
     payload:boolean

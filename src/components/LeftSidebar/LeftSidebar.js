@@ -8,16 +8,16 @@ import {Link} from 'react-router-dom'
 const LeftSidebar = () =>{
     const dispatch = useDispatch();
     const {links} = useSelector(state=>state.menu)
+    const {role} = useSelector(state=>state.user)
     useEffect(()=>{
         dispatch(getmenuInitiate())
     },[])
-    console.log(links)
     return(
         <Sidebar>
             
             <Nav>
             {links.map((link)=>{
-                return(<li><Link to={`/${link.menu}`}>{link.menu}</Link></li>)
+                return(<li><Link to={`/${link.menu}`}>{role.role && role.role === 'admin' ? link.menu :null}</Link></li>)
             })}
     
                 
