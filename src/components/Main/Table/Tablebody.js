@@ -1,20 +1,15 @@
 import {useState,useEffect} from 'react';
 import styled from 'styled-components';
 import Form from '../UserForm/Form'
-import Delete from '../Buttons/Delete';
-import Edit from '../Buttons/Edit';
-import Copy from '../Buttons/Copy';
-import {connect} from 'react-redux';
 import { Pagination } from 'antd'
 import { useDispatch , useSelector } from 'react-redux'
 import { additemInitiate, getitemsInitiate, deleteitemInitiate, edititemInitiate,updateitemInitiate,deleteitemAllInitiate, copyitemInitiate,editedmodeinitialzer} from '../../../Actions/action';
-import { addlogInitiate, actionlogInitiate } from '../../../Actions/logging';
-// import { editedmodeinitialzer } from '../../../Actions/simpleaction'
+import { addlogInitiate, actionlogInitiate, editlogInitiate } from '../../../Actions/logging';
 
 
 const TableBody = (props) =>{
  
-    const {data,website,searchdata,hide} = useSelector(state=>state.data)
+    const {website,searchdata,hide} = useSelector(state=>state.data)
     const {role} = useSelector(state => state.user) 
     // pagination
     const total = searchdata.length
@@ -59,11 +54,14 @@ const TableBody = (props) =>{
         user:role && role.mail,
         userid:role && role.uid,
         actiontype :'added',
-        code: input.code
+        code: input.code,
+        time: new Date()
     }
     const onchangehandler = (event) =>{
         setinput({...input,[event.target.id]:event.target.value})
     }
+    
+    
     const submitHandler = (e) =>{   
         e.preventDefault()
         if(!editmode){
@@ -72,7 +70,22 @@ const TableBody = (props) =>{
             sslExpireDate:''})
             dispatch(addlogInitiate(datas))
         }else{
+            const editlogdata = {
+                ...(website.owner !== input.owner) && {owner: {newowner:input.owner,oldowner:website.owner}},
+                ...(website.code !== input.code) && {code: {newcode:input.code,oldcode:website.code}},
+                ...(website.domain !== input.domain) && {domain: {newdomain:input.domain,olddomain:website.domain}},
+                ...(website.cpanel !== input.cpanel) && {cpanel: {newcpanel:input.cpanel,oldcpanel:website.cpanel}},
+                ...(website.domainExpireDate !== input.domainExpireDate) && {domainExpireDate:{newdomainExpireDate: input.domainExpireDate,
+                                                                             olddomainExpireDate:website.domainExpireDate}},
+                ...(website.hostingExpireDate !== input.hostingExpireDate) && {hostingExpireDate:{newhostingExpireDate: input.hostingExpireDate,
+                                                                             oldhostingExpireDate:website.hostingExpireDate}},
+                ...(website.sslExpireDate !== input.sslExpireDate) && {sslExpireDate:{newsslExpireDate: input.sslExpireDate,
+                                                                             oldsslExpireDate:website.sslExpireDate}},
+                actiontype:'Edited',
+                user:role && role.mail
+            }
             dispatch(updateitemInitiate(websiteid,input))
+            dispatch(actionlogInitiate({code:input.code,user:role && role.mail,actiontype:'edited',time:new Date()}))
             setwebsiteid(null);
             editedmodeinitialzer(false);
             setinput({code:'',domain: '',cpanel : '',username: '',password : '',owner: '',omainExpireDate:'',hostingExpireDate:'' , 
@@ -83,7 +96,7 @@ const TableBody = (props) =>{
     const deletehandler = (item) =>{
         if(window.confirm('are you sure?')){
             dispatch(deleteitemInitiate(item.id))
-            dispatch(actionlogInitiate({code:item.code,user:role && role.mail,actiontype:'deleted'}))
+            dispatch(actionlogInitiate({code:item.code,user:role && role.mail,actiontype:'deleted',time:new Date()}))
         }
     }
     const edithandler = (id) =>{
@@ -93,7 +106,7 @@ const TableBody = (props) =>{
     }
     const copyhandler = (copieditemdata) =>{
         dispatch(copyitemInitiate(copieditemdata))
-        dispatch(actionlogInitiate({code:copieditemdata.code,user:role && role.mail,actiontype:'copied'}))
+        dispatch(actionlogInitiate({code:copieditemdata.code,user:role && role.mail,actiontype:'copied',time:new Date()}))
     }
     
     const deleteallhandler = (id) => {
