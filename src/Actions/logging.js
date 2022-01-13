@@ -7,11 +7,6 @@ const getlog = (datas) =>({
     type:types.GETLOG,
     payload:datas
 })
-const geteditlog = (datas) =>({
-    type:types.GETEDITLOG,
-    payload:datas
-})
-
 const actionlog = () =>({
     type:types.ACTIONLOG
 })
@@ -32,17 +27,6 @@ export const getlogInitiate = () =>{
             log.push({...doc.data(),id:doc.id})
             )
             dispatch(getlog(log))
-        })
-    }
-}
-export const geteditlogInitiate = () =>{
-    return function(dispatch){
-        db.collection('editlog').onSnapshot((querySnapshot)=>{
-            const editlog = []
-            querySnapshot.forEach((doc)=>
-            editlog.push({...doc.data(),id:doc.id})
-            )
-            dispatch(geteditlog(editlog))
         })
     }
 }

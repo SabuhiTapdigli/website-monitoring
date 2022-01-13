@@ -25,7 +25,6 @@ export const USERLISTERROR = 'USERLISTERROR'
 export const USER_ROLE = 'USER_ROLE'
 // for logging
 export const GETLOG = 'GETLOG'
-export const GETEDITLOG = 'GETEDITLOG'
 export const ADDLOG = 'ADDLOG'
 export const ACTIONLOG = 'DELETELOG'
 export const EDITLOG = 'EDITLOG'

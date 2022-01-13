@@ -28,11 +28,19 @@ const Register = () =>{
     }
     const submithandler = (e) => {
         e.preventDefault()
-        if(password !== passwordrepeat){
+        if(mail.includes('@antetechnologies.com')){
+            dispatch(registerInitiate(mail,password,displayName,role))
+        }
+        else if(mail.includes('@azventure.net')){
+            dispatch(registerInitiate(mail,password,displayName,role))
+        }
+        else if(password !== passwordrepeat){
             alert('password not match')
             return;
         }
-        dispatch(registerInitiate(mail,password,displayName,role))
+        else {
+            alert('Sorry you can not register')
+        }
         // setinput({mail:'',password:'',passwordrepeat:''})
     }
     return(

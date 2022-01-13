@@ -1,10 +1,11 @@
 import {useState,useEffect} from 'react';
 import styled from 'styled-components';
 import Form from '../UserForm/Form'
+import {connect} from 'react-redux';
 import { Pagination } from 'antd'
 import { useDispatch , useSelector } from 'react-redux'
 import { additemInitiate, getitemsInitiate, deleteitemInitiate, edititemInitiate,updateitemInitiate,deleteitemAllInitiate, copyitemInitiate,editedmodeinitialzer} from '../../../Actions/action';
-import { addlogInitiate, actionlogInitiate, editlogInitiate } from '../../../Actions/logging';
+import { addlogInitiate, actionlogInitiate } from '../../../Actions/logging';
 
 
 const TableBody = (props) =>{
@@ -71,21 +72,22 @@ const TableBody = (props) =>{
             dispatch(addlogInitiate(datas))
         }else{
             const editlogdata = {
-                ...(website.owner !== input.owner) && {owner: {newowner:input.owner,oldowner:website.owner}},
-                ...(website.code !== input.code) && {code: {newcode:input.code,oldcode:website.code}},
-                ...(website.domain !== input.domain) && {domain: {newdomain:input.domain,olddomain:website.domain}},
-                ...(website.cpanel !== input.cpanel) && {cpanel: {newcpanel:input.cpanel,oldcpanel:website.cpanel}},
-                ...(website.domainExpireDate !== input.domainExpireDate) && {domainExpireDate:{newdomainExpireDate: input.domainExpireDate,
-                                                                             olddomainExpireDate:website.domainExpireDate}},
-                ...(website.hostingExpireDate !== input.hostingExpireDate) && {hostingExpireDate:{newhostingExpireDate: input.hostingExpireDate,
-                                                                             oldhostingExpireDate:website.hostingExpireDate}},
-                ...(website.sslExpireDate !== input.sslExpireDate) && {sslExpireDate:{newsslExpireDate: input.sslExpireDate,
-                                                                             oldsslExpireDate:website.sslExpireDate}},
+                ...(website.owner !== input.owner) && {newowner:input.owner,oldowner:website.owner},
+                ...(website.code !== input.code) && {newcode:input.code,oldcode:website.code},
+                ...(website.domain !== input.domain) && {newdomain:input.domain,olddomain:website.domain},
+                ...(website.cpanel !== input.cpanel) && {newcpanel:input.cpanel,oldcpanel:website.cpanel},
+                ...(website.domainExpireDate !== input.domainExpireDate) && {newdomainExpireDate: input.domainExpireDate,
+                                                                             olddomainExpireDate:website.domainExpireDate},
+                ...(website.hostingExpireDate !== input.hostingExpireDate) && {newhostingExpireDate: input.hostingExpireDate,
+                                                                             oldhostingExpireDate:website.hostingExpireDate},
+                ...(website.sslExpireDate !== input.sslExpireDate) && {newsslExpireDate: input.sslExpireDate,
+                                                                             oldsslExpireDate:website.sslExpireDate},
                 actiontype:'Edited',
                 user:role && role.mail
             }
             dispatch(updateitemInitiate(websiteid,input))
-            dispatch(actionlogInitiate({code:input.code,user:role && role.mail,actiontype:'edited',time:new Date()}))
+            // dispatch(editlogInitiate(editlogdata))
+            dispatch(actionlogInitiate({code:input.code,user:role && role.mail,actiontype:'edited',time:new Date(),editlogdata:editlogdata}))
             setwebsiteid(null);
             editedmodeinitialzer(false);
             setinput({code:'',domain: '',cpanel : '',username: '',password : '',owner: '',omainExpireDate:'',hostingExpireDate:'' , 
