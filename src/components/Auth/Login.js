@@ -14,6 +14,7 @@ const Login = () =>{
     const dispatch = useDispatch();
     const history  = useNavigate()
     const {currentuser} = useSelector(state =>state.user)
+    const {error} = useSelector(state =>state.user)
 
     useEffect(()=>{
         if(currentuser){
@@ -28,6 +29,8 @@ const Login = () =>{
         e.preventDefault()
         dispatch(loginInitiate(mail,password))
         setinput({mail:'',password:''})
+       
+
     }
     return(
         <Container>

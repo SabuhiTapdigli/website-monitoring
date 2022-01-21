@@ -87,7 +87,7 @@ const TableBody = (props) =>{
             }
             dispatch(updateitemInitiate(websiteid,input))
             // dispatch(editlogInitiate(editlogdata))
-            dispatch(actionlogInitiate({code:input.code,user:role && role.mail,actiontype:'edited',time:new Date(),editlogdata:editlogdata}))
+            dispatch(actionlogInitiate({code:input.code,user:role && role.mail,actiontype:'edited',time:new Date(),editlogdata:editlogdata,showcontent:false}))
             setwebsiteid(null);
             editedmodeinitialzer(false);
             setinput({code:'',domain: '',cpanel : '',username: '',password : '',owner: '',omainExpireDate:'',hostingExpireDate:'' , 
@@ -114,10 +114,12 @@ const TableBody = (props) =>{
     const deleteallhandler = (id) => {
         setradio([...radio,id])
     }
+
     const deleteall = (radio) =>{
         dispatch(deleteitemAllInitiate(radio))
+        dispatch(actionlogInitiate({user:role && role.mail,actiontype:'deleted all',time:new Date()}))
     }
-   
+
     useEffect(()=>{
         dispatch(getitemsInitiate())
     },[])

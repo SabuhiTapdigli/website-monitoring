@@ -47,10 +47,12 @@ export const hideElement = (boolean) =>({
     payload:boolean
 })
 export const registerInitiate = (mail,password,displayName,role) => {
+
     return function(dispatch){
         dispatch(registerstart());
         auth.createUserWithEmailAndPassword(mail,password)
         .then(({user})=>{
+            user.sendEmailVerification()
             user.updateProfile({
                 displayName
             })
@@ -58,6 +60,7 @@ export const registerInitiate = (mail,password,displayName,role) => {
             dispatch(registersuccess(user))
         })
         .catch((error)=>dispatch(registererror(error)))
+    
     }
 }
 
@@ -68,7 +71,10 @@ export const loginInitiate = (mail,password) => {
         .then(({user})=>{
             dispatch(loginsuccess(user))
         })
-        .catch((error)=>{dispatch(loginerror(error.message))})
+        .catch((error)=>{
+            dispatch(loginerror(error.message))
+            alert(error.message)
+        })
     }
 }
 
