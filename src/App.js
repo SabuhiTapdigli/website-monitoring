@@ -1,24 +1,20 @@
 import {useEffect} from 'react'
-import styled from 'styled-components';
 import './index.css'
 import Main from './components/Main/Main';
-import { BrowserRouter,Routes,Route } from "react-router-dom";
+import {Routes,Route } from "react-router-dom";
 import Login from './components/Auth/Login';
 import Register from './components/Auth/Register';
 import UserRoute from './components/Auth/UserRoute';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { auth } from './firebaseConfig/fbConfig'
 import {setuser, userRole} from './Actions/authaction'
 import Userlist from './components/Userlists/Userlist';
 import db from './firebaseConfig/fbConfig';
-import axios from 'axios'
 import Scrapped from './Pages/Scrapped';
 import Verifyemail from './components/Auth/Verifyemail';
-import Websites from './Pages/Websites';
 
 function App() {
   const dispatch = useDispatch()
-  const {currentuser} = useSelector(state =>state.user)
   useEffect(()=>{
     auth.onAuthStateChanged((currentUser)=>{
       if(currentUser){

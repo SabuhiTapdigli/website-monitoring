@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useState, useEffect } from 'react'
+import {useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {getmenuInitiate} from '../../Actions/menuAction'
 import {Link} from 'react-router-dom'
@@ -17,7 +17,7 @@ const LeftSidebar = () =>{
             
             <Nav>
             {links.map((link)=>{
-                return(<li><Link to={`/${link.menu}`}>{role && role.role === 'admin' ? link.menu :null}</Link></li>)
+                return(<li key={link.id}><Link to={`/${link.menu}`}>{role && role.role === 'admin' ? link.menu :null}</Link></li>)
             })}
     
                 

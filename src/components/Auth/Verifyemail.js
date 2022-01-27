@@ -21,7 +21,7 @@ const Verifyemail = () =>{
         <Nav>
             <Container>
                 <Navlinks>
-                    <li><a href='' onClick={logouthandler}>Logout</a></li>
+                    <li><a href='/' onClick={logouthandler}>Logout</a></li>
                 </Navlinks>
             </Container>
         </Nav>

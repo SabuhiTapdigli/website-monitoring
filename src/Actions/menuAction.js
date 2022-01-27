@@ -4,19 +4,19 @@ const getmenuitem = (data) => ({
     type:types.GET_MENU_ITEM,
     payload:data
 })
-const getmenuerror = (error) =>({
-    type:types.GET_MENU_ERROR,
-    payload:error
-})
+// const getmenuerror = (error) =>({
+//     type:types.GET_MENU_ERROR,
+//     payload:error
+// })
 
 const userlist = (user) => ({
     type:types.USERLIST,
     payload:user
 })
-const userlisterror = (error) =>({
-    type:types.USERLISTERROR,
-    payload:error
-})
+// const userlisterror = (error) =>({
+//     type:types.USERLISTERROR,
+//     payload:error
+// })
 
 
 export const getmenuInitiate = (menu) =>{

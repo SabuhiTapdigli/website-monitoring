@@ -14,7 +14,6 @@ const Login = () =>{
     const dispatch = useDispatch();
     const history  = useNavigate()
     const {currentuser} = useSelector(state =>state.user)
-    const {error} = useSelector(state =>state.user)
 
     useEffect(()=>{
         if(currentuser){

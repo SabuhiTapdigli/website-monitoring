@@ -5,7 +5,6 @@ import Navbar from '../Header/Navbar'
 import LeftSidebar from '../LeftSidebar/LeftSidebar'
 import RightSidebar from '../RightSidebar/RightSidebar'
 import Lastedit from '../LastEdit/LastEdit'
-import Userlist from '../Userlists/Userlist'
 
 const Main = () => {
     return(

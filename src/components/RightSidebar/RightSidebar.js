@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import styled from 'styled-components';
 import "antd/dist/antd.css";
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Pagination } from 'antd'
 
 const RightSidebar = () =>{
@@ -31,7 +31,7 @@ const RightSidebar = () =>{
             <Nav>
                 {CurrentPosts.map((item) => {
                     return(
-                        <>
+                        <div key={item.id}>
                         
                         {Math.round((new Date() - new Date(item.domainExpireDate))/(1000*3600*24))>=-2 
                         ? <li><a hred=''>{`${item.domainExpireDate} ${item.code} domain`}</a></li> : null}
@@ -39,7 +39,7 @@ const RightSidebar = () =>{
                         ?  <li><a hred=''>{`${item.hostingExpireDate} ${item.code} hosting`}</a></li> : null}
                         {Math.round((new Date() - new Date(item.sslExpireDate))/(1000*3600*24))>=-2 
                         ? <li><a hred=''>{`${item.sslExpireDate} ${item.code} ssl`}</a></li> : null}
-                        </>
+                        </div>
                     )
                     
                 })}
